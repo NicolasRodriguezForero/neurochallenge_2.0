@@ -8,7 +8,8 @@ export function MouseGlow() {
   // Disable mouse glow on game pages
   const isGamePage = location.pathname.includes('/challenges/sequence-memory') || 
                      location.pathname.includes('/challenges/reaction-time') || 
-                     location.pathname.includes('/challenges/aim-trainer');
+                     location.pathname.includes('/challenges/aim-trainer') ||
+                     location.pathname.includes('/challenges/tic-tac-toe');
 
   useEffect(() => {
     const updateMousePosition = (e: MouseEvent) => {

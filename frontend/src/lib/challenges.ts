@@ -23,5 +23,11 @@ export const getChallenges = async (): Promise<Challenge[]> => {
       description: "Improve your aim with this target practice game.",
       link: "/challenges/aim-trainer",
     },
+    {
+      id: "4",
+      name: "Tic-Tac-Toe",
+      description: "Challenge the AI bot in a classic game of strategy.",
+      link: "/challenges/tic-tac-toe",
+    },
   ];
 };
