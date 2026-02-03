@@ -128,31 +128,50 @@ const SequenceMemory = () => {
 
   if (gameState === "idle") {
     return (
-      <div className="w-full h-full flex flex-col items-center justify-center">
-        <Button className="" onClick={startGame}>
-          Start the Game
+      <div className="w-full h-full glass-effect rounded-3xl flex flex-col items-center justify-center p-8 dark:border dark:border-primary/20">
+        <div className="text-center mb-8">
+          <h2 className="text-3xl font-bold mb-4 bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent dark:from-[var(--neon-cyan)] dark:to-[var(--neon-purple)]">
+            Ready to Test Your Memory?
+          </h2>
+          <p className="text-foreground/70 dark:text-foreground/80">
+            Watch the pattern and repeat it back
+          </p>
+        </div>
+        <Button 
+          size="lg"
+          className="bg-primary hover:bg-primary/90 dark:shadow-lg dark:shadow-primary/50 text-lg px-12" 
+          onClick={startGame}
+        >
+          Start Game
         </Button>
       </div>
     );
   } else if (gameState === "playing") {
     return (
-      <div className="w-full h-full flex flex-col">
-        <div className="w-full flex justify-center items-center py-2">
-          <span className="text-lg font-semibold">Score: {score}</span>
+      <div className="w-full h-full glass-effect rounded-3xl flex flex-col dark:border dark:border-primary/20 overflow-hidden">
+        <div className="w-full flex justify-center items-center py-6 border-b border-border dark:border-primary/20">
+          <div className="text-center">
+            <div className="text-sm text-foreground/60 dark:text-foreground/70 mb-1">Score</div>
+            <span className="text-3xl font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent dark:from-[var(--neon-cyan)] dark:to-[var(--neon-pink)]">
+              {score}
+            </span>
+          </div>
         </div>
-        <div className="w-full h-full flex flex-wrap">
+        <div className="w-full h-full p-6 grid grid-cols-3 grid-rows-3 gap-3">
           {cells.map((cell) => (
             <div
               key={cell.id}
-              className={`w-1/3 h-1/3 p-2 ${
+              className={`w-full h-full ${
                 isShowingSequence ? "" : "cursor-pointer"
               }`}
               onClick={() => !isShowingSequence && handleCellClick(cell.id)}
             >
               <div
-                className={`w-full h-full flex items-center justify-center ${
-                  cell.isActive ? "bg-gray-800" : "bg-gray-800/40"
-                } rounded-xl shadow-lg transition-colors duration-200`}
+                className={`w-full h-full flex items-center justify-center rounded-2xl transition-all duration-200 border-2 ${
+                  cell.isActive 
+                    ? "bg-primary dark:bg-primary border-primary dark:border-primary dark:shadow-lg dark:shadow-primary/50 scale-95" 
+                    : "bg-muted dark:bg-card/50 border-border dark:border-primary/30 hover:bg-muted/80 dark:hover:bg-card/70 hover:border-primary/50 dark:hover:border-primary/60 hover:scale-105"
+                }`}
               ></div>
             </div>
           ))}
@@ -161,11 +180,21 @@ const SequenceMemory = () => {
     );
   } else if (gameState === "finished") {
     return (
-      <div className="w-full h-full flex flex-col items-center justify-center">
-        <h1 className="text-4xl font-bold">Finished</h1>
-        <span className="text-2xl mt-2">Final Score: {score}</span>
+      <div className="w-full h-full glass-effect rounded-3xl flex flex-col items-center justify-center p-8 dark:border dark:border-primary/20">
+        <div className="text-center mb-8 animate-fade-in-up">
+          <h2 className="text-4xl font-bold mb-4 bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent dark:from-[var(--neon-cyan)] dark:to-[var(--neon-purple)]">
+            Game Over!
+          </h2>
+          <div className="mb-2 text-foreground/70 dark:text-foreground/80">
+            Final Score
+          </div>
+          <span className="text-6xl font-extrabold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent dark:from-[var(--neon-pink)] dark:to-[var(--neon-cyan)]">
+            {score}
+          </span>
+        </div>
         <Button
-          className="mt-4"
+          size="lg"
+          className="bg-primary hover:bg-primary/90 dark:shadow-lg dark:shadow-primary/50 text-lg px-12"
           onClick={() => {
             setGameState("idle");
             setSequence([]);
@@ -173,7 +202,7 @@ const SequenceMemory = () => {
             setScore(0);
           }}
         >
-          Restart
+          Play Again
         </Button>
       </div>
     );

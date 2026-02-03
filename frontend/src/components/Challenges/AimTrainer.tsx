@@ -1,5 +1,6 @@
 import { useState, useRef } from "react";
 import { Button } from "../ui/button";
+import { Target as TargetIcon } from "lucide-react";
 
 interface Target {
   id: number;
@@ -8,7 +9,7 @@ interface Target {
 }
 
 const GAME_DURATION = 30; // seconds
-const TARGET_SIZE = 60; // px
+const TARGET_SIZE = 70; // px - Aumentado para mejor visibilidad
 const BOARD_WIDTH = 800;
 const BOARD_HEIGHT = 400;
 
@@ -55,18 +56,35 @@ export default function AimTrainer() {
   };
 
   return (
-    <div className="flex flex-col items-center gap-4">
-      <div className="flex gap-8">
-        <div className="text-lg font-semibold">Score: {score}</div>
-        <div className="text-lg font-semibold">Time: {timeLeft}s</div>
+    <div className="flex flex-col items-center gap-6 w-full max-w-4xl mx-auto">
+      {/* Stats */}
+      <div className="flex gap-6">
+        <div className="glass-effect px-6 py-3 rounded-full border border-border dark:border-primary/20">
+          <span className="text-lg font-semibold text-foreground/80">
+            Score: <span className="text-primary dark:text-[var(--neon-cyan)] font-bold">{score}</span>
+          </span>
+        </div>
+        <div className="glass-effect px-6 py-3 rounded-full border border-border dark:border-primary/20">
+          <span className="text-lg font-semibold text-foreground/80">
+            Time: <span className="text-primary dark:text-[var(--neon-purple)] font-bold">{timeLeft}s</span>
+          </span>
+        </div>
       </div>
+
+      {/* Game Board */}
       <div
-        className={`relative ${gameActive && "bg-gray-800/40 shadow-lg"} rounded-lg border-gray-200`}
-        style={{ width: BOARD_WIDTH, height: BOARD_HEIGHT }}
+        className={`relative rounded-3xl overflow-hidden shadow-xl`}
+        style={{ 
+          width: BOARD_WIDTH, 
+          height: BOARD_HEIGHT,
+          backgroundColor: 'rgba(240, 240, 245, 0.5)',
+          border: gameActive ? '4px solid rgb(59, 130, 246)' : '4px solid rgb(99, 102, 241)',
+          backdropFilter: 'blur(10px)'
+        }}
       >
         {gameActive && target && (
           <button
-            className="absolute bg-gray-800 hover:bg-gray-600 rounded-full border-4 border-gray-950 shadow-lg transition-all duration-75"
+            className="absolute group animate-pulse-glow"
             style={{
               left: target.x,
               top: target.y,
@@ -75,27 +93,46 @@ export default function AimTrainer() {
             }}
             onClick={handleTargetClick}
             aria-label="Target"
-          />
+          >
+            {/* Outer glow ring */}
+            <div className="absolute inset-0 rounded-full bg-primary/30 dark:bg-[var(--neon-pink)]/30 blur-lg animate-pulse" />
+            
+            {/* Main target circle */}
+            <div className="relative w-full h-full rounded-full bg-gradient-to-br from-primary to-accent dark:from-[var(--neon-pink)] dark:to-[var(--neon-purple)] border-4 border-white dark:border-white/90 shadow-2xl dark:shadow-[var(--neon-pink)]/50 flex items-center justify-center group-hover:scale-110 transition-transform">
+              {/* Center dot */}
+              <div className="w-3 h-3 rounded-full bg-white dark:bg-white shadow-lg" />
+              
+              {/* Crosshair */}
+              <div className="absolute inset-0 flex items-center justify-center">
+                <TargetIcon className="w-10 h-10 text-white/70 dark:text-white/80" strokeWidth={2.5} />
+              </div>
+            </div>
+          </button>
         )}
+        
         {!gameActive && (
-          <div className="absolute inset-0 flex flex-col items-center justify-center gap-4 bg-transparent rounded-lg">
+          <div className="absolute inset-0 flex flex-col items-center justify-center gap-6 backdrop-blur-sm">
             <Button
-              className="px-6 py-3 rounded-lg font-bold text-xl shadow hover:bg-gray-800 transition"
+              size="lg"
+              className="bg-primary hover:bg-primary/90 dark:shadow-lg dark:shadow-primary/50 text-xl px-12"
               onClick={startGame}
             >
               Start Game
             </Button>
             {timeLeft !== GAME_DURATION && (
-              <div
-                className={`text-2xl font-bold ${gameActive ? "text-white/70" : "text-gray-800"}`}
-              >
-                Final Score: {score}
+              <div className="glass-effect px-8 py-4 rounded-2xl border border-border dark:border-primary/20">
+                <div className="text-sm text-foreground/60 mb-1">Final Score</div>
+                <div className="text-4xl font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent dark:from-[var(--neon-cyan)] dark:to-[var(--neon-purple)]">
+                  {score}
+                </div>
               </div>
             )}
           </div>
         )}
       </div>
-      <div className="text-gray-500 text-sm mt-2">
+
+      {/* Instructions */}
+      <div className="text-foreground/60 dark:text-foreground/70 text-center">
         Click the target as many times as you can in 30 seconds!
       </div>
     </div>
