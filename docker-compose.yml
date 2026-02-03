@@ -1,0 +1,79 @@
+services:
+  db:
+    image: postgres:15
+    container_name: neurochallenge-db
+    restart: always
+    ports:
+      - "${POSTGRES_PORT}:5432"
+    environment:
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_DB=${POSTGRES_DB}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - neurochallenge-network
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: neurochallenge-api
+    restart: always
+    ports:
+      - "${API_PORT}:8000"
+    environment:
+      - DATABASE_URL=postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db:5432/${POSTGRES_DB}
+      - SECRET_KEY=${SECRET_KEY}
+      - ENVIRONMENT=${ENVIRONMENT}
+    volumes:
+      - ./backend:/app
+    depends_on:
+      - db
+    networks:
+      - neurochallenge-network
+
+  frontend:
+    build:
+      context: ./frontend
+      args:
+        - VITE_API_URL=https://${DOMAIN?Variable not set}
+        - NODE_ENV=production
+    container_name: neurochallenge-frontend
+    depends_on:
+      - backend
+    restart: always
+    networks:
+      - neurochallenge-network
+
+  nginx:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: neurochallenge-nginx
+    restart: always
+    ports:
+      - "80:80"
+    depends_on:
+      - frontend
+      - backend
+    networks:
+      - neurochallenge-network
+
+  adminer:
+    image: adminer:latest
+    container_name: neurochallenge-adminer
+    restart: always
+    ports:
+      - "8080:8080"
+    depends_on:
+      - db
+    networks:
+      - neurochallenge-network
+
+volumes:
+  postgres_data:
+
+networks:
+  neurochallenge-network:
+    driver: bridge
