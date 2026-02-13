@@ -181,7 +181,7 @@ export default function ReactionTimeChallenge() {
         )}
       </div>
 
-      {results.length > 0 && phase !== "finished" && (
+      {results.length > 0 && (
         <div className="glass-effect w-full rounded-2xl p-6 border border-border dark:border-primary/20">
           <div className="text-sm text-foreground/60 mb-3 text-center">Previous Results</div>
           <div className="space-y-2">

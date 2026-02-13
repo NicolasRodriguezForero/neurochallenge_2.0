@@ -29,5 +29,11 @@ export const getChallenges = async (): Promise<Challenge[]> => {
       description: "Challenge the AI bot in a classic game of strategy.",
       link: "/challenges/tic-tac-toe",
     },
+    {
+      id: "5",
+      name: "Infinite Tic-Tac-Toe",
+      description: "A never-ending battle where your oldest moves disappear!",
+      link: "/challenges/tic-tac-toe-infinite",
+    },
   ];
 };
