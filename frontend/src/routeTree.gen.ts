@@ -14,6 +14,8 @@ import { Route as rootRoute } from './routes/__root'
 import { Route as SigninImport } from './routes/signin'
 import { Route as IndexImport } from './routes/index'
 import { Route as ChallengesIndexImport } from './routes/challenges/index'
+import { Route as ChallengesTicTacToeInfiniteImport } from './routes/challenges/tic-tac-toe-infinite'
+import { Route as ChallengesTicTacToeImport } from './routes/challenges/tic-tac-toe'
 import { Route as ChallengesSequenceMemoryImport } from './routes/challenges/sequence-memory'
 import { Route as ChallengesReactionTimeImport } from './routes/challenges/reaction-time'
 import { Route as ChallengesAimTrainerImport } from './routes/challenges/aim-trainer'
@@ -35,6 +37,19 @@ const IndexRoute = IndexImport.update({
 const ChallengesIndexRoute = ChallengesIndexImport.update({
   id: '/challenges/',
   path: '/challenges/',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const ChallengesTicTacToeInfiniteRoute =
+  ChallengesTicTacToeInfiniteImport.update({
+    id: '/challenges/tic-tac-toe-infinite',
+    path: '/challenges/tic-tac-toe-infinite',
+    getParentRoute: () => rootRoute,
+  } as any)
+
+const ChallengesTicTacToeRoute = ChallengesTicTacToeImport.update({
+  id: '/challenges/tic-tac-toe',
+  path: '/challenges/tic-tac-toe',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -95,6 +110,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ChallengesSequenceMemoryImport
       parentRoute: typeof rootRoute
     }
+    '/challenges/tic-tac-toe': {
+      id: '/challenges/tic-tac-toe'
+      path: '/challenges/tic-tac-toe'
+      fullPath: '/challenges/tic-tac-toe'
+      preLoaderRoute: typeof ChallengesTicTacToeImport
+      parentRoute: typeof rootRoute
+    }
+    '/challenges/tic-tac-toe-infinite': {
+      id: '/challenges/tic-tac-toe-infinite'
+      path: '/challenges/tic-tac-toe-infinite'
+      fullPath: '/challenges/tic-tac-toe-infinite'
+      preLoaderRoute: typeof ChallengesTicTacToeInfiniteImport
+      parentRoute: typeof rootRoute
+    }
     '/challenges/': {
       id: '/challenges/'
       path: '/challenges'
@@ -113,6 +142,8 @@ export interface FileRoutesByFullPath {
   '/challenges/aim-trainer': typeof ChallengesAimTrainerRoute
   '/challenges/reaction-time': typeof ChallengesReactionTimeRoute
   '/challenges/sequence-memory': typeof ChallengesSequenceMemoryRoute
+  '/challenges/tic-tac-toe': typeof ChallengesTicTacToeRoute
+  '/challenges/tic-tac-toe-infinite': typeof ChallengesTicTacToeInfiniteRoute
   '/challenges': typeof ChallengesIndexRoute
 }
 
@@ -122,6 +153,8 @@ export interface FileRoutesByTo {
   '/challenges/aim-trainer': typeof ChallengesAimTrainerRoute
   '/challenges/reaction-time': typeof ChallengesReactionTimeRoute
   '/challenges/sequence-memory': typeof ChallengesSequenceMemoryRoute
+  '/challenges/tic-tac-toe': typeof ChallengesTicTacToeRoute
+  '/challenges/tic-tac-toe-infinite': typeof ChallengesTicTacToeInfiniteRoute
   '/challenges': typeof ChallengesIndexRoute
 }
 
@@ -132,6 +165,8 @@ export interface FileRoutesById {
   '/challenges/aim-trainer': typeof ChallengesAimTrainerRoute
   '/challenges/reaction-time': typeof ChallengesReactionTimeRoute
   '/challenges/sequence-memory': typeof ChallengesSequenceMemoryRoute
+  '/challenges/tic-tac-toe': typeof ChallengesTicTacToeRoute
+  '/challenges/tic-tac-toe-infinite': typeof ChallengesTicTacToeInfiniteRoute
   '/challenges/': typeof ChallengesIndexRoute
 }
 
@@ -143,6 +178,8 @@ export interface FileRouteTypes {
     | '/challenges/aim-trainer'
     | '/challenges/reaction-time'
     | '/challenges/sequence-memory'
+    | '/challenges/tic-tac-toe'
+    | '/challenges/tic-tac-toe-infinite'
     | '/challenges'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -151,6 +188,8 @@ export interface FileRouteTypes {
     | '/challenges/aim-trainer'
     | '/challenges/reaction-time'
     | '/challenges/sequence-memory'
+    | '/challenges/tic-tac-toe'
+    | '/challenges/tic-tac-toe-infinite'
     | '/challenges'
   id:
     | '__root__'
@@ -159,6 +198,8 @@ export interface FileRouteTypes {
     | '/challenges/aim-trainer'
     | '/challenges/reaction-time'
     | '/challenges/sequence-memory'
+    | '/challenges/tic-tac-toe'
+    | '/challenges/tic-tac-toe-infinite'
     | '/challenges/'
   fileRoutesById: FileRoutesById
 }
@@ -169,6 +210,8 @@ export interface RootRouteChildren {
   ChallengesAimTrainerRoute: typeof ChallengesAimTrainerRoute
   ChallengesReactionTimeRoute: typeof ChallengesReactionTimeRoute
   ChallengesSequenceMemoryRoute: typeof ChallengesSequenceMemoryRoute
+  ChallengesTicTacToeRoute: typeof ChallengesTicTacToeRoute
+  ChallengesTicTacToeInfiniteRoute: typeof ChallengesTicTacToeInfiniteRoute
   ChallengesIndexRoute: typeof ChallengesIndexRoute
 }
 
@@ -178,6 +221,8 @@ const rootRouteChildren: RootRouteChildren = {
   ChallengesAimTrainerRoute: ChallengesAimTrainerRoute,
   ChallengesReactionTimeRoute: ChallengesReactionTimeRoute,
   ChallengesSequenceMemoryRoute: ChallengesSequenceMemoryRoute,
+  ChallengesTicTacToeRoute: ChallengesTicTacToeRoute,
+  ChallengesTicTacToeInfiniteRoute: ChallengesTicTacToeInfiniteRoute,
   ChallengesIndexRoute: ChallengesIndexRoute,
 }
 
@@ -196,6 +241,8 @@ export const routeTree = rootRoute
         "/challenges/aim-trainer",
         "/challenges/reaction-time",
         "/challenges/sequence-memory",
+        "/challenges/tic-tac-toe",
+        "/challenges/tic-tac-toe-infinite",
         "/challenges/"
       ]
     },
@@ -213,6 +260,12 @@ export const routeTree = rootRoute
     },
     "/challenges/sequence-memory": {
       "filePath": "challenges/sequence-memory.tsx"
+    },
+    "/challenges/tic-tac-toe": {
+      "filePath": "challenges/tic-tac-toe.tsx"
+    },
+    "/challenges/tic-tac-toe-infinite": {
+      "filePath": "challenges/tic-tac-toe-infinite.tsx"
     },
     "/challenges/": {
       "filePath": "challenges/index.tsx"

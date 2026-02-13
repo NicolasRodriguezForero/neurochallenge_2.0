@@ -4,7 +4,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { Feature } from "@/components/Landing/Feature";
 import { AboutSection } from "@/components/Landing/AboutSection";
 import { TestimonialsSection } from "@/components/Landing/TestimonialsSection";
-import { Sparkles, Zap, Trophy } from "lucide-react";
+import { Sparkles, Zap } from "lucide-react";
 
 export const Route = createFileRoute("/")({
   component: Index,
